@@ -22,10 +22,9 @@ def tab(file, names=['Wave', 'Flux']):
 sy1_path = 'https://ned.ipac.caltech.edu/spc1/1995/1995ApJS...98..477H/NGC_4151:S:B:hfs1995.txt'
 #sy1 = ascii.read(sy1_path, names=['Wave', 'Flux'])
 sy1 = tab(sy1_path)
-#plot(rest(sy1['Wave'], 0.00333), sy1['Flux'])
+sy1_z = 0.00333
 
 # Seyfert 2 Spectrum Data
 # NGC1068
 sy2_path = 'https://ned.ipac.caltech.edu/spc1/1995/1995ApJS...98..477H/NGC_1068:S:B:hfs1995.txt'
 sy2 = tab(sy2_path)
-

@@ -1,30 +1,61 @@
-import numpy as np
 from astropy.io import fits
-from astropy.io import ascii
-import matplotlib.pyplot as plt
 
-# plot spectrum
-def plot(wave, flux):
-    plt.subplots(figsize=(16,5))
-    plt.plot(wave, flux)
-    plt.show()
-    
-# put wavelength in rest frame
-def rest(wave, z):
-    return wave/(1+z)
 
-# make ascii table
-def tab(file, names=['Wave', 'Flux']):
-    return ascii.read(file, names=names)
-    
-# Seyfert 1 Spectrum Data
-# NGC4151
-sy1_path = 'https://ned.ipac.caltech.edu/spc1/1995/1995ApJS...98..477H/NGC_4151:S:B:hfs1995.txt'
-#sy1 = ascii.read(sy1_path, names=['Wave', 'Flux'])
-sy1 = tab(sy1_path)
-sy1_z = 0.00333
+def open_spec(path, file):
+    """
+    Function to get rest wavelength and flux density out of FITS file
 
-# Seyfert 2 Spectrum Data
-# NGC1068
-sy2_path = 'https://ned.ipac.caltech.edu/spc1/1995/1995ApJS...98..477H/NGC_1068:S:B:hfs1995.txt'
-sy2 = tab(sy2_path)
+    Args:
+        path: pathname
+        file: filename
+
+    Returns:
+        wave: rest wavelength
+        flux: flux density
+    """
+    data = fits.open(path + file)[1]
+    wave = data['Rest-wavelength']
+    flux = data['Flux density']
+    return wave, flux
+
+
+def get_spec(angle):
+    """
+    Function to get AGN classification based on approximate viewing angle.
+    Uses rough definitions of Emma Alexander and data from BASS Data Release 1.
+
+    Args:
+        angle (int): Approximate AGN viewing angle
+
+    Returns:
+        wave (np array): rest wavelength
+        flux (np array): flux density
+    """
+    if (angle >= 0) & (angle < 15):
+        type = 'blazar'
+        num = '0545'
+    elif (angle >= 15) & (angle < 45):
+        type = 'radio-loud quasar'
+        num = '0715'
+    elif (angle >= 45) & (angle < 70):
+        type = 'broad line radio galaxy'
+        num = '1110'
+    elif (angle >= 70) & (angle < 90):
+        type = 'narrow line radio galaxy'
+        # Maybe also 474? But that's a Seyfert 1 which doesn't make sense?
+        num = '0360'
+    # TODO: add Sy 1.2, 1.5, 1.7, 1.8, 1.9
+    elif (angle >= 90) & (angle < 135):
+        type = 'sy2'
+        num = '0005'
+    elif (angle >= 135) & (angle < 160):
+        type = 'sy1'
+        num = '0002'
+    elif (angle >= 160) & (angle <= 180):
+        type = 'radio-quiet quasar'
+        num = '1146'
+
+    path = '/Users/annie/Downloads/BASS_DR1_fits.zip/'
+    file = 'BASS_DR1_' + num + '.fits'
+
+    return open_spec(path, file)

@@ -13,7 +13,7 @@ def open_spec(path, file):
         wave: rest wavelength
         flux: flux density
     """
-    data = fits.open(path + file)[1]
+    data = fits.open(path + file)[1].data
     wave = data['Rest-wavelength']
     flux = data['Flux density']
     return wave, flux

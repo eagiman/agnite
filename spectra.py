@@ -75,14 +75,14 @@ def get_spec(angle):
         type = 'radio-quiet quasar'
         num = '1146'
 
-    path = '/Users/annie/Downloads/BASS_DR1_fits.zip/'
+    path = 'assets/BASS_DR1_fits.zip/'
     file = 'BASS_DR1_' + num + '.fits'
 
     return open_spec(path, file)
 
 class agn:
 
-    def __init__(self, angle, path='/Users/annie/Downloads/BASS_DR1_fits.zip/BASS_DR1_'):
+    def __init__(self, angle, path='assets/BASS_DR1_fits.zip/BASS_DR1_'):
         angle += 90
         self.angle = angle
         self.path = path

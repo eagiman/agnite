@@ -10,7 +10,7 @@ import plotly.express as px
 import  streamlit_toggle as tog
 
 # Configure page
-st.set_page_config(page_title="AGNITE", page_icon='agnite.png', layout='wide')
+st.set_page_config(page_title="AGNITE", page_icon='assets/agnite.png', layout='wide')
 
 # give title
 st.header('Active Galactic Nuclei Interactive Tool for Exploration')

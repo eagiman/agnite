@@ -20,8 +20,8 @@ class Model:
         y (int): y coordinate in pixels for arrow to be pasted on image
     """
     def __init__(self, angle=0, r=1220):
-        self.im = Image.open('agn.png')
-        self.arrow = Image.open('arrow.webp').rotate(180, expand=True)
+        self.im = Image.open('assets/agn.png')
+        self.arrow = Image.open('assets/arrow.webp').rotate(180, expand=True)
         self.angle = angle
         self.arrow = self.arrow.rotate(self.angle, expand=True)
         self.r = r
@@ -35,8 +35,8 @@ class Model:
         Function that resets the im and arrow attributes to default after
         changing through pasting or rotation
         """
-        self.im = Image.open('agn.png')
-        self.arrow = Image.open('arrow.webp').rotate(180, expand=True)
+        self.im = Image.open('assets/agn.png')
+        self.arrow = Image.open('assets/arrow.webp').rotate(180, expand=True)
 
     def rotate(self, angle):
         """
@@ -81,7 +81,6 @@ class Model:
             new_im (PIL Image): new image with arrow pasted
 
         """
-        #self.refresh()
         pos = self.rotate(angle)
         new_im = self.im.copy()
         x, y = pos

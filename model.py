@@ -35,8 +35,8 @@ class Model:
         Function that resets the im and arrow attributes to default after
         changing through pasting or rotation
         """
-        self.im = Image.open('assets/agn.png')
-        self.arrow = Image.open('assets/arrow.webp').rotate(180, expand=True)
+        self.im = Image.open('agn.png')
+        self.arrow = Image.open('arrow.webp').rotate(180, expand=True)
 
     def rotate(self, angle):
         """

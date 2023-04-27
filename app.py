@@ -2,57 +2,65 @@ import streamlit as st
 from astropy.io import ascii
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import copy
 import spectra
 import model
+import plotly.express as px
+import  streamlit_toggle as tog
+
+# Configure page
+st.set_page_config(page_title="AGNITE", page_icon='agnite.png', layout='wide')
 
 # give title
-st.title('Active Galactic Nuclei Interactive Tool for Exploration')
-
-# Test thingy
-# col1, mid, col2 = st.columns([1,1,20])
-# with col1:
-#     st.image('agnite.png', width=60)
-# with col2:
-#     st.write('A Name')
+st.header('Active Galactic Nuclei Interactive Tool for Exploration')
+#st.write('It is going to say more here!')
 
 
-# let user choose angle
-st.header('Angle')
+# Initialize angle to 0
 if 'angle' not in st.session_state:
     st.session_state['angle'] = 0
+    st.session_state.angle = 0
+    st.session_state.lines = True
+    st.session_state['lines'] = True
 
-# get spectrum
-# @st.cache_data()
-# def spec(angle, path=None):
-#     wave, flux = spectra.get_spec(angle)
-#     wave, flux = spectra.no_zero(wave, flux)
-#     fig, ax = plt.subplots(figsize=(16,5))
-#     ax.plot(wave, flux)
-#     return fig
 
-@st.cache_data()
-def spec(angle, path=None):
-    agn = spectra.agn(angle)
-    wave, flux = agn.get_spec()
-    fig, ax = plt.subplots(figsize=(16,5))
-    ax.plot(wave, flux)
-    return fig
+mod = model.Model(r=800)
+agn = spectra.AGN(st.session_state.angle)
 
-@st.cache_data()
-def sed(angle, path=None):
-    agn = spectra.agn(angle)
-    freq, den = agn.get_sed()
-    fig, ax = plt.subplots()
-    ax.scatter(freq, den)
-    plt.xscale('log')
-    plt.yscale('log')
+def make_spec(angle, lines):
+    df = agn.df
+    fig = px.line(df, x='Wavelength', y='Flux', labels={
+        "Wavelength": "Wavelength (&#197;)", "Flux": "Flux (erg cm<sup>-2</sup> s<sup>-1</sup> &#197;<sup>-1</sup>)"})
+    if lines:
+        agn.plot_lines(fig)
     return fig
 
 
-st.sidebar.markdown('Choose Viewing Angle')
+def make_sed(angle):
+    df = agn.get_sed()
+    fig = px.scatter(df, x='Frequency', y='Density', labels={
+        'Frequency': 'Frequency (Hz)', 'Density': 'Flux Density (Jy)'}, log_x=True, log_y=True)
+    return fig
 
-mod = model.Model(r=850)
+
+@st.cache_data()
+def run(angle, lines, path=None):
+
+    agn.rotate(st.session_state.angle)
+    spec = make_spec(angle, lines)
+    sed = make_sed(angle)
+
+    vals = {'spec': spec, 'sed': sed, 'type': agn.type, 'obj': agn.obj}
+    # wave, flux = agn.get_spec()
+    # fig, ax = plt.subplots(figsize=(16,5))
+    # ax.plot(wave, flux)
+    # ax.set_title(agn.type)
+    #if st.session_state.lines:
+
+    #return fig, agn.type, agn.obj
+    return vals
+
 @st.cache_data()
 def get_model(angle):
     return mod.paste(angle)
@@ -63,11 +71,25 @@ def get_model(angle):
 #                  use_column_width=True)
 
 
-st.session_state.channel = st.sidebar.slider('Galaxy Viewing Angle',
+st.session_state.angle = st.sidebar.slider('Galaxy Viewing Angle',
                             min_value=-90, max_value=90)
 
-st.sidebar.image(get_model(st.session_state.channel),
+st.sidebar.image(get_model(st.session_state.angle),
                  use_column_width=True)
 
-st.pyplot(spec(st.session_state.channel))
-st.pyplot(sed(st.session_state.channel))
+
+metric1, metric2 = st.columns(2)
+
+metric1.metric(label='AGN Type', value=run(st.session_state.angle, st.session_state['lines'])['type'])
+metric2.metric(label='Object', value=run(st.session_state.angle, st.session_state['lines'])['obj'])
+
+tab_spec, tab_sed = st.tabs(["Spectrum", "SED"])
+
+with tab_spec:
+
+    tog.st_toggle_switch(label="Display Emission Lines", key='lines', default_value=True)
+    st.plotly_chart(run(st.session_state.angle, st.session_state['lines'])['spec'], use_container_width=True)
+
+with tab_sed:
+
+    st.plotly_chart(run(st.session_state.angle, st.session_state['lines'])['sed'], use_container_width=True)

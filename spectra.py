@@ -93,7 +93,6 @@ class AGN:
         Attributes:
             angle (int): Viewing angle in degrees
             path (str): Path to fits files
-            im (PIL Image): Simple AGN model image
             type (str): Type of AGN
             num (str): Swift BAT object ID number as a 4 digit string
             obj (str): General name of object used as example for AGN type
@@ -133,8 +132,10 @@ class AGN:
             self.obj = '2MASX J00091156-0036551'
         elif (angle >= -70) & (angle < -45):
             self.type = 'Seyfert 1'
-            self.num = '0002'
-            self.obj = 'Fairall 1203'
+            #self.num = '0002'
+            self.num = '0126'
+            #self.obj = 'Fairall 1203'
+            self.obj = 'Fairall 296'
         elif (angle >= -90) & (angle < -70):
             self.type = 'Radio-Quiet Quasar'
             #num = '1146'
@@ -184,8 +185,11 @@ class AGN:
             self.obj = '2MASX J00091156-0036551'
         elif (angle >= -70) & (angle < -45):
             self.type = 'Seyfert 1'
-            self.num = '0002'
-            self.obj = 'Fairall 1203'
+            self.type = 'Seyfert 1'
+            # self.num = '0002'
+            self.num = '0126'
+            # self.obj = 'Fairall 1203'
+            self.obj = 'Fairall 296'
         elif (angle >= -90) & (angle < -70):
             self.type = 'Radio-Quiet Quasar'
             # num = '1146'
@@ -285,7 +289,10 @@ class AGN:
                 "Cl3a": (5517.709, r"ClIIIa"),
                 "Cl3b": (5537.873, r"ClIIIb"),
                 "Ar3": (7135.790, r"[ArIII]"),
-                "O2": (7330.730, r"[OII]")
+                "O2": (7330.730, r"[OII]"),
+                "O1": (6300.304, r"[OI]"),
+                "H-alpha": (6562.819, r"Hα"),
+                "N2": (6585.23, r"[NII]")
                 # "Fe10": (6374.510, r"[FeX")
             }
 
@@ -298,12 +305,17 @@ class AGN:
                 "O3b": (5006.843, r"[OIIIb]"),
                 "Fe2": (5276.002, r"[FeII]"),
                 "He1": (5877.25, r"He I"),
+                #"N2": (6548.050, "[NII]"),
                 "H-alpha": (6562.819, r"Hα"),
                 "N2": (6585.23, r"[NII]"),
                 "Fe10": (6374.510, r"[FeX"),
                 #"O1": (6363.776, r"[OI]"),
-                "S2": (6718.32, r"[SII]"),
-                "O1": (6300.304, r"[OI]")
+                #"S2": (6718.32, r"[SII]"),
+                "O1": (6300.304, r"[OI]"),
+                "H-gamma": (4340.471, r"Hγ"),
+                "O3": (4363.210, r"[OIII]"),
+                "H-delta": (4101.742, r"Hδ"),
+                "H-epsilon": (3970.079, r"Hε")
             }
 
         elif self.type == "Radio-Quiet Quasar":
@@ -364,7 +376,7 @@ class AGN:
 
         if self.type == "Seyfert 2":
             for key in lines:
-                if (key == "O3b") or (key == "Cl3b"):
+                if (key == "O3b") or (key == "Cl3b") or (key == "N2") or (key == "S2"):
                     fig.add_vline(lines[key][0], annotation_text=lines[key][1], line_color='grey', line_width=1,
                                   line_dash='dot', annotation_textangle=-90, annotation_position="top right")
                 else:
@@ -373,7 +385,7 @@ class AGN:
 
         if self.type == "Seyfert 1":
             for key in lines:
-                if (key == "O3b") or (key == "H-alpha"):
+                if (key == "O3b") or (key == "N2") or (key == "O3"):
                     fig.add_vline(lines[key][0], annotation_text=lines[key][1], line_color='grey', line_width=1,
                                   line_dash='dot', annotation_textangle=-90, annotation_position="top right")
                 else:

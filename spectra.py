@@ -102,7 +102,7 @@ class AGN:
             df (DataFrame): Wavelength and Flux in a Pandas DataFrame
             lines (dict): Dictionary of emission lines for object
         """
-    def __init__(self, angle, path='assets/BASS_DR1_fits.zip/BASS_DR1_'):
+    def __init__(self, angle, path='assets/BASS_fits/BASS_DR1_'):
 
         self.angle = angle
         self.path = path

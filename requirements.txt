@@ -7,3 +7,4 @@ Pillow==9.5.0
 plotly==5.14.1
 streamlit==1.20.0
 streamlit_toggle_switch==1.0.2
+streamlit_extras==0.2.7

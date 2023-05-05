@@ -83,7 +83,7 @@ mod = model.Model(r=910)
 agn = spectra.AGN(st.session_state.angle)
 
 
-def make_spec(lines):
+def make_spec(angle, lines):
     """
     Function for creating plotly figure displaying spectrum
 
@@ -101,7 +101,7 @@ def make_spec(lines):
     return fig
 
 
-def make_sed():
+def make_sed(angle):
     """
     Function for creating plotly figure displaying SED
 
@@ -115,7 +115,7 @@ def make_sed():
 
 
 @st.cache_data
-def run(lines):
+def run(angle, lines):
     """
     Cached driver function to update plots as user input changes
 
@@ -126,8 +126,8 @@ def run(lines):
         Dictionary of spectrum figure, SED figure, AGN type string, and AGN object string
     """
     agn.rotate(st.session_state.angle)
-    spec = make_spec(lines)
-    sed = make_sed()
+    spec = make_spec(angle, lines)
+    sed = make_sed(angle)
 
     vals = {'spec': spec, 'sed': sed, 'type': agn.type, 'obj': agn.obj}
 
@@ -165,8 +165,8 @@ st.sidebar.selectbox('AGN Type',
 metric1, metric2 = st.columns(2)
 
 # Create metrics displaying current AGN type and Obejct name
-metric1.metric(label='AGN Type', value=run(st.session_state['lines'])['type'])
-metric2.metric(label='Object', value=run(st.session_state['lines'])['obj'])
+metric1.metric(label='AGN Type', value=run(st.session_state.angle, st.session_state['lines'])['type'])
+metric2.metric(label='Object', value=run(st.session_state.angle, st.session_state['lines'])['obj'])
 
 # Create tabs for viewing spectrum and SED
 tab_spec, tab_sed = st.tabs(["Spectrum", "SED"])
@@ -175,9 +175,9 @@ tab_spec, tab_sed = st.tabs(["Spectrum", "SED"])
 with tab_spec:
 
     tog.st_toggle_switch(label="Display Emission Lines", key='lines', default_value=True)
-    st.plotly_chart(run(st.session_state['lines'])['spec'], use_container_width=True)
+    st.plotly_chart(run(st.session_state.angle, st.session_state['lines'])['spec'], use_container_width=True)
 
 # Display SED in sed tab
 with tab_sed:
 
-    st.plotly_chart(run(st.session_state['lines'])['sed'], use_container_width=True)
+    st.plotly_chart(run(st.session_state.angle, st.session_state['lines'])['sed'], use_container_width=True)

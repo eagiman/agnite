@@ -3,19 +3,19 @@ from astropy.io import ascii
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import copy
 import spectra
 import model
 import plotly.express as px
 import streamlit_toggle as tog
+from streamlit_extras.stateful_button import button as Button
+from streamlit_extras.add_vertical_space import add_vertical_space
+
+# if 'sidebar_state' not in st.session_state:
+#     st.session_state.sidebar_state = 'expanded'
 
 # Configure page
+#st.set_page_config(page_title="AGNITE", page_icon='assets/agnite.png', layout='wide', initial_sidebar_state=st.session_state.sidebar_state)
 st.set_page_config(page_title="AGNITE", page_icon='assets/agnite.png', layout='wide')
-
-# give title
-st.header('Active Galactic Nuclei Interactive Tool for Exploration')
-#st.write('It is going to say more here!')
-
 
 # Initialize angle to 0
 if 'angle' not in st.session_state:
@@ -29,6 +29,45 @@ if 'lines' not in st.session_state:
 if 'default' not in st.session_state:
     st.session_state.default = 'Narrow Line Radio Galaxy'
     st.session_state['default'] = 'Narrow Line Radio Galaxy'
+
+if 'about' not in st.session_state:
+    st.session_state['about'] = False
+
+col1, col2 = st.columns([8,1])
+
+with col2:
+    add_vertical_space(1)
+    Button("About", key='about')
+
+if st.session_state['about']:
+    st.info("""
+    This is a tool to explore the 
+    [unified model](https://en.wikipedia.org/wiki/Active_galactic_nucleus?oldformat=true#Unification_of_AGN_species) 
+    of active galactic nuclei (AGN). The spectra of AGN, the extremely luminous centers of most galaxies, differ greatly
+    between types. The unified model states all AGN operate fundamentally the same way and these differences are due to 
+    viewing angle. This app aims to help visualize this through displaying real AGN spectra and SEDs
+    for different viewing angles and types.
+    """)
+
+# if st.session_state['about']:
+#     st.session_state.sidebar_state = 'collapsed'
+#     st.markdown("""---""")
+#     info1, info2 = st.columns(2)
+#     info2.image('assets/agn_tight.png')
+#     st.markdown("""---""")
+# else:
+#     st.session_state.sidebar_state = 'expanded'
+
+# give title
+col1.header('Active Galactic Nuclei Interactive Tool for Exploration')
+#st.write('It is going to say more here!')
+
+# # Makes about section
+# with st.expander('What are AGN?'):
+#     col1, col2 = st.columns(2)
+#     col2.image('assets/agn_tight.png')
+#     col1.write("Hello!")
+
 
 type = {
     'Blazar': 80,

@@ -7,7 +7,7 @@ import copy
 import spectra
 import model
 import plotly.express as px
-import  streamlit_toggle as tog
+import streamlit_toggle as tog
 
 # Configure page
 st.set_page_config(page_title="AGNITE", page_icon='assets/agnite.png', layout='wide')
@@ -21,12 +21,39 @@ st.header('Active Galactic Nuclei Interactive Tool for Exploration')
 if 'angle' not in st.session_state:
     st.session_state['angle'] = 0
     st.session_state.angle = 0
+
+if 'lines' not in st.session_state:
     st.session_state.lines = True
     st.session_state['lines'] = True
 
+if 'default' not in st.session_state:
+    st.session_state.default = 'Narrow Line Radio Galaxy'
+    st.session_state['default'] = 'Narrow Line Radio Galaxy'
 
-mod = model.Model(r=800)
+type = {
+    'Blazar': 80,
+    'Radio-Loud Quasar': 60,
+    'Radio-Quiet Quasar': -80,
+    'Broad Line Radio Galaxy': 30,
+    'Narrow Line Radio Galaxy': 10,
+    'Seyfert 1': -60,
+    'Seyfert 2': -30
+}
+
+ind = {
+    'Blazar': 0,
+    'Radio-Loud Quasar': 1,
+    'Radio-Quiet Quasar': 2,
+    'Broad Line Radio Galaxy': 3,
+    'Narrow Line Radio Galaxy': 4,
+    'Seyfert 1': 5,
+    'Seyfert 2': 6
+}
+
+mod = model.Model(r=910)
 agn = spectra.AGN(st.session_state.angle)
+
+
 
 def make_spec(angle, lines):
     df = agn.df
@@ -44,7 +71,7 @@ def make_sed(angle):
     return fig
 
 
-@st.cache_data()
+@st.cache_data
 def run(angle, lines, path=None):
 
     agn.rotate(st.session_state.angle)
@@ -52,17 +79,12 @@ def run(angle, lines, path=None):
     sed = make_sed(angle)
 
     vals = {'spec': spec, 'sed': sed, 'type': agn.type, 'obj': agn.obj}
-    # wave, flux = agn.get_spec()
-    # fig, ax = plt.subplots(figsize=(16,5))
-    # ax.plot(wave, flux)
-    # ax.set_title(agn.type)
-    #if st.session_state.lines:
 
-    #return fig, agn.type, agn.obj
     return vals
 
-@st.cache_data()
-def get_model(angle):
+
+@st.cache_data
+def make_model(angle):
     return mod.paste(angle)
 
 # st.sidebar.image('/Users/annie/Desktop/Astr330/agnite/agn.png',
@@ -72,10 +94,56 @@ def get_model(angle):
 
 
 st.session_state.angle = st.sidebar.slider('Galaxy Viewing Angle',
-                            min_value=-90, max_value=90)
+                            min_value=-90, max_value=90, value=type[st.session_state['default']], format="%+d°\n")
 
-st.sidebar.image(get_model(st.session_state.angle),
-                 use_column_width=True)
+st.sidebar.image(make_model(st.session_state.angle),
+                 use_column_width='always')
+# st.sidebar.image(run(st.session_state.angle, st.session_state['lines'])['model'],
+#                  use_column_width=True)
+
+# if st.sidebar.button(label='Radio-Quiet Quasar', use_container_width=True):
+#     st.session_state.angle = -80
+#     st.session_state.default = -80
+#
+# if st.sidebar.button(label='Seyfert 1', use_container_width=True):
+#     st.session_state.angle = -60
+#     st.session_state.default = -80
+#
+# if st.sidebar.button(label='Seyfert 2', use_container_width=True):
+#     st.session_state.angle = -30
+#     st.session_state.default = -80
+#
+# if st.sidebar.button(label='Narrow Line Radio Galaxy', use_container_width=True):
+#     st.session_state.angle = 10
+#     st.session_state.default = -80
+#
+# if st.sidebar.button(label='Broad Line Radio Galaxy', use_container_width=True):
+#     st.session_state.angle = 30
+#
+#
+# if st.sidebar.button(label='Radio-Loud Quasar', use_container_width=True):
+#     st.session_state.angle = 60
+#
+# if st.sidebar.button(label='Blazar', use_container_width=True):
+#     st.session_state.angle = 80
+
+
+
+# if st.sidebar.button(label='Blazar'):
+#     st.session_state.angle = 80
+#     default = 80
+
+# if st.sidebar.button(label='Blazar'):
+#     st.session_state.angle = 80
+#     default = 80
+#
+# if st.sidebar.button(label='Blazar'):
+#     st.session_state.angle = 80
+#     default = 80
+
+st.sidebar.selectbox('AGN Type',
+    ('Blazar', 'Radio-Loud Quasar', 'Radio-Quiet Quasar', 'Broad Line Radio Galaxy',
+     'Narrow Line Radio Galaxy', 'Seyfert 1', 'Seyfert 2'), key='default', index=ind[st.session_state['default']])
 
 
 metric1, metric2 = st.columns(2)

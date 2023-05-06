@@ -1,8 +1,7 @@
-<img alt="logo" src="classes/assets/agnite.png" style="float: left;" width=15% height=15%>
+<h1><img alt="logo" src="classes/assets/agnite.png" style="float: left;" width=15% height=15%>
 
-# AGNITE
+AGNITE
 
-&nbsp;
 ## About <a name = "about"></a>
 
 The Active Galactic Nuclei Interactive Tool for Exploration, or AGNITE, is a visualization tool for 

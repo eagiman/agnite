@@ -1,8 +1,4 @@
-
-<img src="classes/assets/agnite.png" alt="agnite logo" style="float: right; width: 20%;">
-
 # AGNITE
-
 
 ## About
 The Active Galactic Nuclei Interactive Tool for Exploration, or AGNITE, is a visualization tool for 
@@ -10,9 +6,27 @@ the [Unified Model of AGN](https://en.wikipedia.org/wiki/Active_galactic_nucleus
 AGNITE operates as a cloud-hosted web app allowing a user to explore how the optical spectrum and SED of AGN changes as the viewing angle changes. 
 
 ## Use <a name = "getting_started"></a>
-This project is fully web-accessible at [agite.streamlit.app](agnite.streamlit.app) but 
-can be installed locally as well by cloning this repo.
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](agnite.streamlit.app)
+
+This project is fully web-accessible but 
+can be installed locally as well through the following steps:
+
+```bash
+git clone https://github.com/eagiman/agnite.git
+cd agnite
+```
+
+Once ensuring `streamlit` and all packages in requirements.txt are installed, the app
+can be run locally through
+
+```bash
+streamlit run app.py
+```
 
 ## Acknowledgements
 Thank you to Professor Marla Geha and Will Cerny for fruitful ideas and help and
 thank you to Audrey Whitmer for designing the obscured AGN model illustration used in this project.
+
+---
+
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/cloudposse.svg?style=social&label=Follow%20%40AnnieGiman)](https://twitter.com/anniegiman)

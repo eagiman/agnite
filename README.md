@@ -1,6 +1,6 @@
 <h1><img alt="logo" src="classes/assets/agnite.png" style="float: left;" width=15% height=15%>
 
-AGNITE
+AGNITE</h1>
 
 ## About <a name = "about"></a>
 

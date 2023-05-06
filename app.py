@@ -1,15 +1,15 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-import spectra
-import model
+import classes.spectra as spectra
+import classes.model as model
 import plotly.express as px
 import streamlit_toggle as tog
 from streamlit_extras.stateful_button import button as Button
 from streamlit_extras.add_vertical_space import add_vertical_space
 
 # Configure page
-st.set_page_config(page_title="AGNITE", page_icon='assets/agnite.png', layout='wide')
+st.set_page_config(page_title="AGNITE", page_icon='classes/assets/agnite.png', layout='wide')
 
 # Initialize angle to 0
 if 'angle' not in st.session_state:

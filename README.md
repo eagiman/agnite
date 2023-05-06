@@ -1,3 +1,4 @@
+
 # AGNITE
 
 ## About
@@ -16,7 +17,7 @@ git clone https://github.com/eagiman/agnite.git
 cd agnite
 ```
 
-Once ensuring `streamlit` and all packages in requirements.txt are installed, the app
+Once ensuring `streamlit` and all packages in `requirements.txt` are installed, the app
 can be run locally through
 
 ```bash
@@ -24,11 +25,9 @@ streamlit run app.py
 ```
 
 ## Acknowledgements
-Thank you to Professor Marla Geha and Will Cerny for fruitful ideas and support, and
+Thank you to Professor Marla Geha and Will Cerny, and
 thank you to Audrey Whitmer for designing the obscured AGN model illustration used in this project.
 
 ---
 
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/cloudposse.svg?style=social&label=Follow%20%40AnnieGiman)](https://twitter.com/anniegiman)
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2.svg?style=for-the-badge&logo=LinkedIn&logoColor=white)](https://www.linkedin.com/in/anniegiman/)]

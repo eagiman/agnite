@@ -8,4 +8,7 @@ setuptools.setup(
     author='Annie Giman',
     author_email='annie.giman@yale.edu',
     license='MIT',
-    packages=['agnite'])
+    packages=['agnite'],
+    install_requires=['numpy','Pillow','streamlit','pandas','plotly',
+                      'streamlit_toggle','streamlit_extras','astroquery','astropy']
+)

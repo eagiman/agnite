@@ -31,7 +31,7 @@ if 'about' not in st.session_state:
     st.session_state['about'] = False
 
 # Make columns for title and about button
-col1, col2 = st.columns([8,1])
+col1, col2 = st.columns([7,1])
 
 # Add about button
 # Using Streamlit Extra's stateful button to track whether to display info or not
@@ -41,6 +41,8 @@ with col2:
 
 # give title
 col1.header('Active Galactic Nuclei Interactive Tool for Exploration')
+
+st.caption('Made by [Annie Giman](https://github.com/eagiman)')
 
 # Give about section
 if st.session_state['about']:
@@ -152,12 +154,13 @@ st.session_state.angle = st.sidebar.slider('Galaxy Viewing Angle',
 
 # Display model in sidebar using cached function, so it updates with user input
 st.sidebar.image(make_model(st.session_state.angle),
-                 use_column_width='always')
+                 use_column_width='always', caption='Illustration by Audrey Whitmer')
 
 # Add selectbox for user to view based on AGN type rather than angle, and set angle to default
 st.sidebar.selectbox('AGN Type',
     ('Blazar', 'Radio-Loud Quasar', 'Radio-Quiet Quasar', 'Broad Line Radio Galaxy',
-     'Narrow Line Radio Galaxy', 'Seyfert 1', 'Seyfert 2'), key='default', index=ind[st.session_state['default']])
+     'Narrow Line Radio Galaxy', 'Seyfert 1', 'Seyfert 2'), key='default',
+                     index=ind[st.session_state['default']], help='Choose AGN type to view')
 
 # Set up columns for metrics
 metric1, metric2 = st.columns(2)

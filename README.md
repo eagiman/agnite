@@ -17,8 +17,14 @@ git clone https://github.com/eagiman/agnite.git
 cd agnite
 ```
 
-Once ensuring `streamlit` and all packages in `requirements.txt` are installed, the app
-can be run locally through
+Ensure you have necessary packages by running
+
+```bash
+pip install streamlit
+pip install -r requirements.txt
+```
+
+The app can now be run locally though
 
 ```bash
 streamlit run app.py

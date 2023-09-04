@@ -4,7 +4,6 @@ import pandas as pd
 import classes.spectra as spectra
 import classes.model as model
 import plotly.express as px
-import streamlit_toggle as tog
 from streamlit_extras.stateful_button import button as Button
 from streamlit_extras.add_vertical_space import add_vertical_space
 
@@ -175,7 +174,7 @@ tab_spec, tab_sed = st.tabs(["Spectrum", "SED"])
 # Display spectrum and toggle button for displaying emission lines in spectrum tab
 with tab_spec:
 
-    tog.st_toggle_switch(label="Display Emission Lines", key='lines', default_value=True)
+    st.toggle(label="Display Emission Lines", key='lines', value=True)
     st.plotly_chart(run(st.session_state.angle, st.session_state['lines'])['spec'], use_container_width=True)
 
 # Display SED in sed tab
